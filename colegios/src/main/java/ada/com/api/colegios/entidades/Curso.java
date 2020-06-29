@@ -1,8 +1,8 @@
 package ada.com.api.colegios.entidades;
 
 public class Curso {
-    public String nombre;
-    public String codigoCurso;
+    private String nombre;
+    private String codigoCurso;
 
     public boolean equals(Object c) {
         Curso curso = (Curso) c;
