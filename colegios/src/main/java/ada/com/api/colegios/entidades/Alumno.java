@@ -1,26 +1,19 @@
 package ada.com.api.colegios.entidades;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "alumnos")
 public class Alumno {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id_alumno")
+  private Integer alumnoId;
   private String nombre;
   private String apellido;
-  private Integer codigoAlumno;
-
-  /**
-   * @param nombre
-   * @param apellido
-   * @param codigoAlumno
-   */
-  public Alumno(String nombre, String apellido, Integer codigoAlumno) {
-    this.nombre = nombre;
-    this.apellido = apellido;
-    this.codigoAlumno = codigoAlumno;
-  }
-
-  public boolean equals(Object alumno) {
-    Alumno a = (Alumno) alumno;
-    return this.getCodigoAlumno().equals(a.getCodigoAlumno());
-
-  }
+  @ManyToOne
+  @JoinColumn(name = "id_curso", referencedColumnName = "id_curso")
+  private Curso curso;
 
   /**
    * @return the nombre
@@ -51,17 +44,32 @@ public class Alumno {
   }
 
   /**
-   * @return the codigoAlumno
+   * @return the alumnoId
    */
-  public Integer getCodigoAlumno() {
-    return codigoAlumno;
+  public Integer getAlumnoId() {
+    return alumnoId;
   }
 
   /**
-   * @param codigoAlumno the codigoAlumno to set
+   * @param alumnoId the alumnoId to set
    */
-  public void setCodigoAlumno(Integer codigoAlumno) {
-    this.codigoAlumno = codigoAlumno;
+  public void setAlumnoId(Integer alumnoId) {
+    this.alumnoId = alumnoId;
+  }
+
+  /**
+   * @return the curso
+   */
+  public Curso getCurso() {
+    return curso;
+  }
+
+  /**
+   * @param curso the curso to set
+   */
+  public void setCurso(Curso curso) {
+    this.curso = curso;
+    this.curso.getAlumnos().add(this);
   }
 
 }

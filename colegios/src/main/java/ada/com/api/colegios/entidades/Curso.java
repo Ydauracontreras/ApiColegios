@@ -1,12 +1,36 @@
 package ada.com.api.colegios.entidades;
 
-public class Curso {
-    private String nombre;
-    private String codigoCurso;
+import java.util.*;
 
-    public boolean equals(Object c) {
-        Curso curso = (Curso) c;
-        return this.getCodigoCurso().equals(curso.getCodigoCurso());
+import javax.persistence.*;
+
+@Entity
+@Table(name = "cursos")
+public class Curso {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_curso")
+    private Integer cursoId;
+    private String nombre;
+    private Integer cupoMaximo;
+    @OneToMany(mappedBy = "alumnos", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Alumno> alumnos = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "id_profesor", referencedColumnName = "id_profesor")
+    private Profesor profesor;
+
+    /**
+     * @return the cursoId
+     */
+    public Integer getCursoId() {
+        return cursoId;
+    }
+
+    /**
+     * @param cursoId the cursoId to set
+     */
+    public void setCursoId(Integer cursoId) {
+        this.cursoId = cursoId;
     }
 
     /**
@@ -24,17 +48,46 @@ public class Curso {
     }
 
     /**
-     * @return the codigoCurso
+     * @return the cupoMaximo
      */
-    public String getCodigoCurso() {
-        return codigoCurso;
+    public Integer getCupoMaximo() {
+        return cupoMaximo;
     }
 
     /**
-     * @param codigoCurso the codigoCurso to set
+     * @param cupoMaximo the cupoMaximo to set
      */
-    public void setCodigoCurso(String codigoCurso) {
-        this.codigoCurso = codigoCurso;
+    public void setCupoMaximo(Integer cupoMaximo) {
+        this.cupoMaximo = cupoMaximo;
+    }
+
+    /**
+     * @return the profesor
+     */
+    public Profesor getProfesor() {
+        return profesor;
+    }
+
+    /**
+     * @param profesor the profesor to set
+     */
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
+        this.profesor.getListaDeCursos().add(this);
+    }
+
+    /**
+     * @return the alumnos
+     */
+    public List<Alumno> getAlumnos() {
+        return alumnos;
+    }
+
+    /**
+     * @param alumnos the alumnos to set
+     */
+    public void setAlumnos(List<Alumno> alumnos) {
+        this.alumnos = alumnos;
     }
 
 }
