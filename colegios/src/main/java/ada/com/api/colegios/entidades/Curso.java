@@ -1,8 +1,8 @@
 package ada.com.api.colegios.entidades;
 
-import java.util.*;
-
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "cursos")
@@ -12,12 +12,16 @@ public class Curso {
     @Column(name = "id_curso")
     private Integer cursoId;
     private String nombre;
+    @Column(name = "cupo_maximo")
     private Integer cupoMaximo;
-    @OneToMany(mappedBy = "alumnos", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Alumno> alumnos = new ArrayList<>();
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "id_profesor", referencedColumnName = "id_profesor")
     private Profesor profesor;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
+    private Alumno alumno;
 
     /**
      * @return the cursoId
@@ -73,21 +77,22 @@ public class Curso {
      */
     public void setProfesor(Profesor profesor) {
         this.profesor = profesor;
-        this.profesor.getListaDeCursos().add(this);
+        this.profesor.getCursos().add(this);
     }
 
     /**
-     * @return the alumnos
+     * @return the alumno
      */
-    public List<Alumno> getAlumnos() {
-        return alumnos;
+    public Alumno getAlumno() {
+        return alumno;
     }
 
     /**
-     * @param alumnos the alumnos to set
+     * @param alumno the alumno to set
      */
-    public void setAlumnos(List<Alumno> alumnos) {
-        this.alumnos = alumnos;
+    public void setAlumno(Alumno alumno) {
+        this.alumno = alumno;
+        this.alumno.getCursos().add(this);
     }
 
 }

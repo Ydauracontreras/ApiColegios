@@ -1,5 +1,7 @@
 package ada.com.api.colegios.entidades;
 
+import java.util.*;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,9 +13,8 @@ public class Alumno {
   private Integer alumnoId;
   private String nombre;
   private String apellido;
-  @ManyToOne
-  @JoinColumn(name = "id_curso", referencedColumnName = "id_curso")
-  private Curso curso;
+  @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private List<Curso> cursos = new ArrayList<>();
 
   /**
    * @return the nombre
@@ -58,18 +59,17 @@ public class Alumno {
   }
 
   /**
-   * @return the curso
+   * @return the cursos
    */
-  public Curso getCurso() {
-    return curso;
+  public List<Curso> getCursos() {
+    return cursos;
   }
 
   /**
-   * @param curso the curso to set
+   * @param cursos the cursos to set
    */
-  public void setCurso(Curso curso) {
-    this.curso = curso;
-    this.curso.getAlumnos().add(this);
+  public void setCursos(List<Curso> cursos) {
+    this.cursos = cursos;
   }
 
 }

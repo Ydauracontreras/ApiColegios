@@ -14,8 +14,8 @@ public class Profesor {
     private String nombre;
     private String apellido;
     private Integer antiguedad;
-    @OneToMany(mappedBy = "cursos", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Curso> listaDeCursos = new ArrayList<>();
+    @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Curso> cursos = new ArrayList<>();
 
     /**
      * @return the nombre
@@ -60,20 +60,6 @@ public class Profesor {
     }
 
     /**
-     * @return the listaDeCursos
-     */
-    public List<Curso> getListaDeCursos() {
-        return listaDeCursos;
-    }
-
-    /**
-     * @param listaDeCursos the listaDeCursos to set
-     */
-    public void setListaDeCursos(List<Curso> listaDeCursos) {
-        this.listaDeCursos = listaDeCursos;
-    }
-
-    /**
      * @return the profesorId
      */
     public int getProfesorId() {
@@ -85,6 +71,20 @@ public class Profesor {
      */
     public void setProfesorId(int profesorId) {
         this.profesorId = profesorId;
+    }
+
+    /**
+     * @return the cursos
+     */
+    public List<Curso> getCursos() {
+        return cursos;
+    }
+
+    /**
+     * @param cursos the cursos to set
+     */
+    public void setCursos(List<Curso> cursos) {
+        this.cursos = cursos;
     }
 
 }
